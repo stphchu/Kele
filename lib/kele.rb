@@ -20,7 +20,23 @@ class Kele
 #GET_ME
   def get_me
     response = self.class.get("https://www.bloc.io/api/v1/users/me", headers: { "authorization" =>  @auth_token })
-    JSON.parse(response.body)
+    @user = JSON.parse(response.body)
+  end
+
+#GET_MENTOR_AVAILABILITY
+  def get_mentor_availability(mentor_id)
+    response = self.class.get("https://www.bloc.io/api/v1/mentors/#{mentor_id}/student_availability", headers: { "authorization" =>  @auth_token })
+    @mentor_schedule = JSON.parse(response.body).to_a
+    
+    mentor_availability = []
+    
+    @mentor_schedule.each do |timeslot|
+	if timeslot["booked"] == nil
+	    mentor_availability.push(timeslot)
+        end
+    end
+
+   p mentor_availability 
   end
 
 
