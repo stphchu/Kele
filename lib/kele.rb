@@ -1,9 +1,10 @@
 require 'rubygems' if RUBY_VERSION < '1.9'
 require 'httparty'
+require 'json'
 
 class Kele
   include HTTParty
-  base_uri 'https://www.bloc.io/api/v1'
+  base_uri "https://www.bloc.io/api/v1"
 
 #INITIALIZE
   def initialize(email, password)
@@ -15,5 +16,12 @@ class Kele
       @auth_token = response["auth_token"]
     end
   end
+
+#GET_ME
+  def get_me
+    response = self.class.get("https://www.bloc.io/api/v1/users/me", headers: { "authorization" =>  @auth_token })
+    JSON.parse(response.body)
+  end
+
 
 end
