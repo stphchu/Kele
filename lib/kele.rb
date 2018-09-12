@@ -1,15 +1,17 @@
 require 'rubygems' if RUBY_VERSION < '1.9'
 require 'httparty'
 require 'json'
+require './lib/roadmap'
 
 class Kele
   include HTTParty
+  include Roadmap
   base_uri "https://www.bloc.io/api/v1"
 
 #INITIALIZE
   def initialize(email, password)
-    response = self.class.post("https://www.bloc.io/api/v1/sessions/", body: { email: email, password: password })
-    
+    response = self.class.post("https://www.bloc.io/api/v1/sessions/", body: { email: email, password: password })    
+
     if response.code != 200
       p "Invalid email or password"
     else
@@ -35,9 +37,7 @@ class Kele
 	    mentor_availability.push(timeslot)
         end
     end
-
-   p mentor_availability 
+     mentor_availability 
   end
-
 
 end
